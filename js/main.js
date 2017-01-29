@@ -49,6 +49,7 @@ GameSimulation = {}; exports = GameSimulation;
     }
 
     var score = 0;
+    var lives = 3;
 
     _Functions = {
 
@@ -131,8 +132,18 @@ GameSimulation = {}; exports = GameSimulation;
                     dy = -dy;
                 }
                 else {
-                    alert("GAME OVER!");
-                    document.location.reload();
+                    lives--;
+                    if(!lives) {
+                        alert('GAME OVER!');
+                        document.location.reload();
+                    }
+                    else {
+                        x = canvas.width / 2;
+                        y = canvas.height - 30;
+                        dx = 3;
+                        dy = -3;
+                        paddleX = (canvas.width - paddleWidth) / 2;
+                    }
                 }
             }
             if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
@@ -157,6 +168,7 @@ GameSimulation = {}; exports = GameSimulation;
             _Functions.collisionDetection();
             _Functions.addBounds();
             _Functions.drawScore();
+            _Functions.drawLives();
             /* Paddle movements */
             if(rightPressed && paddleX < canvas.width - paddleWidth) {
                 paddleX += 7;
@@ -241,9 +253,15 @@ GameSimulation = {}; exports = GameSimulation;
          * Draw the user score on the canvas
          */
         drawScore : function() {
-            ctx.font = "16px arial";
+            ctx.font = "16px Arial";
             ctx.fillStyle = '#0095DD';
             ctx.fillText("Score : " + score, 8, 20);
+        },
+
+        drawLives : function() {
+            ctx.font = '16px Arial';
+            ctx.fillStyle = '#0095DD';
+            ctx.fillText('Lives : ' + lives, canvas.width - 65, 20);
         }
     }
 
