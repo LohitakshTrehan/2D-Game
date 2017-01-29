@@ -1,0 +1,19 @@
+{
+  "name": "2dgame",
+  "version": "1.0.0",
+  "description": "a simple 2d game built using pure JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "2d",
+    "game",
+    "js"
+  ],
+  "author": "abhishekg785 <abhishekg785@gmail.com> (http://abhishekg785.github.io/)",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
+}
