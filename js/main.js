@@ -39,10 +39,10 @@ GameSimulation = {}; exports = GameSimulation;
          */
         addBounds : function() {
 
-            if(y + dy < 0 || y + dy > canvas.height) {
+            if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
                 dy = -dy;
             }
-            if(x + dx > canvas.width || x + dx < 0) {
+            if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
                 dx = -dx;
             }
 
