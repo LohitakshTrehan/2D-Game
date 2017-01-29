@@ -16,7 +16,15 @@ GameSimulation = {}; exports = GameSimulation;
         x = canvas.width / 2,
         y = canvas.height - 30,
         dx = 2,
-        dy = -2;
+        dy = -2,
+
+        /* details for the paddle comes here*/
+        paddleHeight = 10,
+        paddleWidth = 75,
+        paddleX = (canvas.width - paddleWidth) / 2,
+        paddleY = canvas.height - paddleHeight,
+        leftPressed = false,
+        rightPressed = false;
 
     _Functions = {
 
@@ -31,6 +39,18 @@ GameSimulation = {}; exports = GameSimulation;
             ctx.fill();
             ctx.closePath();
 
+            return _Functions;
+        },
+
+        drawPaddle : function() {
+
+            ctx.beginPath();
+            ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
+            ctx.fillStyle = '#0095DD';
+            ctx.fill();
+            ctx.closePath();
+
+            return _Functions;
         },
 
         /**
@@ -46,6 +66,7 @@ GameSimulation = {}; exports = GameSimulation;
                 dx = -dx;
             }
 
+            return _Functions;
         },
 
 
@@ -56,13 +77,47 @@ GameSimulation = {}; exports = GameSimulation;
 
             window.requestAnimationFrame(_Functions.draw);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            _Functions.addBounds();
-            _Functions.drawBall();
+            _Functions.addBounds().drawBall().drawPaddle();
+
+            /* Ball movements */
             x += dx;
             y += dy;
+
+            /* Paddle movements */
+            if(rightPressed && paddleX < canvas.width - paddleWidth) {
+                paddleX += 7;
+            }
+            else if(leftPressed && paddleX > 0) {
+                paddleX -= 7;
+            }
+        },
+
+        keyDownHandler : function(e) {
+
+            if(e.keyCode == 39) {
+                rightPressed = true;
+            }
+            else if(e.keyCode == 37) {
+                leftPressed = true;
+            }
+
+        },
+
+        keyUpHandler : function(e) {
+
+            if(e.keyCode == 39) {
+                rightPressed = false;
+            }
+            else if(e.keyCode == 37) {
+                leftPressed = false;
+            }
+
         }
     }
 
     _Functions.draw();
+
+    document.addEventListener('keydown', _Functions.keyDownHandler, false);
+    document.addEventListener('keyup', _Functions.keyUpHandler, false);
 
 })(document, window);
