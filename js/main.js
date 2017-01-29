@@ -26,27 +26,29 @@ GameSimulation = {}; exports = GameSimulation;
         leftPressed = false,
         rightPressed = false;
 
-        /* parameters for the bricks comes here */
-        var brickParams = {
-            brickRowCount : 3,
-            brickColumnCount : 5,
-            brickWidth : 75,
-            brickHeight : 20,
-            brickPadding : 10,
-            brickOffsetTop : 30,
-            brickOffsetLeft : 30
-        }
-        var bricks = [];
-        for(var c = 0 ; c < brickParams.brickColumnCount; c++ ) {
-            bricks[c] = [];
-            for(var r = 0; r < brickParams.brickRowCount; r++ ) {
-                bricks[c][r] = {
-                    x : 0,
-                    y : 0,
-                    status : 1
-                }
+    /* parameters for the bricks comes here */
+    var brickParams = {
+        brickRowCount : 3,
+        brickColumnCount : 5,
+        brickWidth : 75,
+        brickHeight : 20,
+        brickPadding : 10,
+        brickOffsetTop : 30,
+        brickOffsetLeft : 30
+    }
+    var bricks = [];
+    for(var c = 0 ; c < brickParams.brickColumnCount; c++ ) {
+        bricks[c] = [];
+        for(var r = 0; r < brickParams.brickRowCount; r++ ) {
+            bricks[c][r] = {
+                x : 0,
+                y : 0,
+                status : 1
             }
         }
+    }
+
+    var score = 0;
 
     _Functions = {
 
@@ -154,7 +156,7 @@ GameSimulation = {}; exports = GameSimulation;
             _Functions.drawPaddle();
             _Functions.collisionDetection();
             _Functions.addBounds();
-
+            _Functions.drawScore();
             /* Paddle movements */
             if(rightPressed && paddleX < canvas.width - paddleWidth) {
                 paddleX += 7;
@@ -200,12 +202,25 @@ GameSimulation = {}; exports = GameSimulation;
             for(c = 0; c < brickParams.brickColumnCount; c++) {
                 for(r = 0; r < brickParams.brickRowCount; r++) {
                     var b = bricks[c][r];
-                    if(x > b.x && x < b.x + brickParams.brickWidth && y > b.y && y < b.y + brickParams.brickHeight) {
-                        dy = -dy;
-                        b.status = 0;
+                    if(b.status == 1) {
+                        if(x > b.x && x < b.x + brickParams.brickWidth && y > b.y && y < b.y + brickParams.brickHeight) {
+                            dy = -dy;
+                            b.status = 0;
+                            score ++;
+                            if(score == brickParams.brickRowCount * brickParams.brickColumnCount) {
+                                alert('YOU WIN, CONGRATULATIONS!');
+                                document.location.reload();
+                            }
+                        }
                     }
                 }
             }
+        },
+
+        drawScore : function() {
+            ctx.font = "16px arial";
+            ctx.fillStyle = '#0095DD';
+            ctx.fillText("Score : " + score, 8, 20);
         }
     }
 
