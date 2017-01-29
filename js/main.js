@@ -171,6 +171,10 @@ GameSimulation = {}; exports = GameSimulation;
 
         },
 
+        /**
+         * Handles the key down event
+         * @param { Object } e The event object for the key press event
+         */
         keyDownHandler : function(e) {
 
             if(e.keyCode == 39) {
@@ -182,6 +186,10 @@ GameSimulation = {}; exports = GameSimulation;
 
         },
 
+        /**
+         * Handles the key up event
+         * @param { Object } e The event object for the key up event
+         */
         keyUpHandler : function(e) {
 
             if(e.keyCode == 39) {
@@ -191,6 +199,18 @@ GameSimulation = {}; exports = GameSimulation;
                 leftPressed = false;
             }
 
+        },
+
+        /**
+         * Handles the mouse move event
+         * @param { Object } e The event object for the mouse move event
+         */
+        mouseMoveHandler : function(e) {
+
+            var relativeX = e.clientX - canvas.offsetLeft;
+            if(relativeX > 0 && relativeX < canvas.width) {
+                paddleX = relativeX - paddleWidth / 2;
+            }
         },
 
         /**
@@ -217,6 +237,9 @@ GameSimulation = {}; exports = GameSimulation;
             }
         },
 
+        /**
+         * Draw the user score on the canvas
+         */
         drawScore : function() {
             ctx.font = "16px arial";
             ctx.fillStyle = '#0095DD';
@@ -228,5 +251,6 @@ GameSimulation = {}; exports = GameSimulation;
 
     document.addEventListener('keydown', _Functions.keyDownHandler, false);
     document.addEventListener('keyup', _Functions.keyUpHandler, false);
+    document.addEventListener('mousemove', _Functions.mouseMoveHandler, false);
 
 })(document, window);
